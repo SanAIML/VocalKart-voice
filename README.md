@@ -21,7 +21,7 @@ Limited access to smartphones with efficient input methods
 
 
 # 🚀Our Solution:
-## VocalKart-One Voice. One Shop. One Market.
+## 🔹VocalKart-One Voice. One Shop. One Market.
 * Vendors list products and manage sales by simply speaking.
 
 * Functions reliably even with poor internet, perfect for remote areas.
@@ -32,7 +32,7 @@ Limited access to smartphones with efficient input methods
 
 * Removes intermediaries, significantly boosting vendor profits.
 
-## Features:
+## 🔹Features:
 ### Wake Word Assistant — “Hey Bazaar”
 * Activates the assistant when the user says “Hey Bazaar,” like “Hey Google.”
 ### Voice-Based Product Listing
