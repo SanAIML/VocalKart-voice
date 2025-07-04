@@ -1,7 +1,7 @@
 # 🎯VocalKart-voice
 India’s first voice-based rural marketplace that empowers rural vendors and customers to buy and sell using simple voice interactions, without needing app literacy.
 
-# 💡Problem Statement:
+# 💡Problem Statement
 In many rural and underserved regions, small-scale vendors and informal sellers face significant challenges in adopting digital platforms due to:
 
 Limited literacy and technical skills
@@ -20,7 +20,7 @@ Complex interfaces with steep learning curves
 Limited access to smartphones with efficient input methods
 
 
-# 🚀Our Solution:
+# 🚀Our Solution
 ## 🔹VocalKart-One Voice. One Shop. One Market.
 * Vendors list products and manage sales by simply speaking.
 
@@ -32,7 +32,7 @@ Limited access to smartphones with efficient input methods
 
 * Removes intermediaries, significantly boosting vendor profits.
 
-## 🔹Features:
+## 🔹Features
 ### Wake Word Assistant — “Hey Bazaar”
 * Activates the assistant when the user says “Hey Bazaar,” like “Hey Google.”
 ### Voice-Based Product Listing
@@ -62,7 +62,7 @@ Limited access to smartphones with efficient input methods
 ### Voice Learning Mode (Gamified)
 * Teaches digital skills to vendors using fun, local-language voice lessons and rewards.
 
-# 🔧Tech Stack:
+# 🔧Tech Stack
 **Voice-to-Text**      - `Whisper / Google STT`
 
 **Text-to-Speech**     - `Google TTS / Polly`
@@ -83,18 +83,18 @@ Limited access to smartphones with efficient input methods
 
 **Wake Word & Offline** - `Vosk / Picovoice`
 
-# 🔁Architecture/Flow:
+# 🔁Architecture/Flow
 This architecture powers “Hey Bazaar” — integrating voice, vision, translation, and delivery into one seamless rural marketplace flow.
 
 ![WhatsApp Image 2025-07-04 at 19 28 10_abe3822d](https://github.com/user-attachments/assets/90a15760-2028-4412-87b9-1fb69ba3b496)
 
-# 📽️Demo Video:
+# 📽️Demo Video
 A real-time walkthrough of how rural vendors and buyers interact using just voice, images, and local language.
 
 
 
 
-# 📈Future Scope:
+# 📈Future Scope
 
 ### -Village Pilot Launch
 Initiate VocalKart services in five initial villages to gather crucial user feedback and refine operations.
@@ -107,5 +107,5 @@ Integrate a sophisticated engine for price forecasting and product bundling to o
 ### -Nationwide Expansion
 Scale VocalKart's presence to over 50 districts across India, significantly broadening our rural footprint.
 
-# 🧾 Project Presentation:
+# 🧾 Project Presentation
 Here’s the slide deck that explains more about our idea,
