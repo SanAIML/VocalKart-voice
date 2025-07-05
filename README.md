@@ -91,7 +91,7 @@ This architecture powers “Hey Bazaar” — integrating voice, vision, transla
 # 📽️Demo Video
 A real-time walkthrough of how rural vendors and buyers interact using just voice, images, and local language.
 
-
+https://www.youtube.com/watch?v=-CMDganzcIk
 
 
 # 📈Future Scope
