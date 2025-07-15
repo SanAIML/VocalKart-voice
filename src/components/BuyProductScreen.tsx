@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Mic, MapPin, Volume2, ShoppingCart, CreditCard, ArrowLeft, Smartphone, Check, Phone, Plus, Minus, X, Type, Search } from 'lucide-react';
+import { Mic, MapPin, Volume2, ShoppingCart, CreditCard, Smartphone, Check, Phone, Plus, Minus, X, Type, Search } from 'lucide-react';
 
 interface BuyProductScreenProps {
   onNavigate: (screen: string) => void;
+  currentLanguage: string;
 }
 
 interface CartItem {
@@ -13,7 +14,7 @@ interface CartItem {
   vendor: string;
 }
 
-const BuyProductScreen: React.FC<BuyProductScreenProps> = ({ onNavigate }) => {
+const BuyProductScreen: React.FC<BuyProductScreenProps> = ({ onNavigate, currentLanguage }) => {
   const [isListening, setIsListening] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
@@ -26,6 +27,86 @@ const BuyProductScreen: React.FC<BuyProductScreenProps> = ({ onNavigate }) => {
   const [searchMode, setSearchMode] = useState<'voice' | 'text'>('voice');
   const [isAISpeaking, setIsAISpeaking] = useState(false);
   const [aiQuestion, setAiQuestion] = useState('What would you like to buy today?');
+
+  const translations = {
+    'English': {
+      title: 'Buy Products',
+      voiceSearch: 'Voice Search',
+      textSearch: 'Text Search',
+      availableProducts: 'Available Products',
+      addToCart: 'Add to Cart',
+      buyNow: 'Buy Now',
+      callVendor: 'Call Vendor',
+      cart: 'Shopping Cart',
+      checkout: 'Proceed to Checkout',
+      paymentMethod: 'Choose Payment Method',
+      upiPayment: 'UPI Payment',
+      cashOnDelivery: 'Cash on Delivery',
+      paymentSuccess: 'Payment Done Successfully!',
+      orderConfirmed: 'Your order has been confirmed',
+      goToHome: 'Go to Home',
+      tapToSpeak: 'Tap to Search by Voice',
+      listening: 'Listening...',
+      aiSpeaking: 'AI is speaking...',
+      typeSearch: 'Type what you\'re looking for...',
+      cartEmpty: 'Your cart is empty',
+      total: 'Total',
+      items: 'items',
+      cancel: 'Cancel'
+    },
+    'हिंदी': {
+      title: 'उत्पाद खरीदें',
+      voiceSearch: 'आवाज़ खोज',
+      textSearch: 'टेक्स्ट खोज',
+      availableProducts: 'उपलब्ध उत्पाद',
+      addToCart: 'कार्ट में जोड़ें',
+      buyNow: 'अभी खरीदें',
+      callVendor: 'विक्रेता को कॉल करें',
+      cart: 'शॉपिंग कार्ट',
+      checkout: 'चेकआउट पर जाएं',
+      paymentMethod: 'भुगतान विधि चुनें',
+      upiPayment: 'UPI भुगतान',
+      cashOnDelivery: 'डिलीवरी पर भुगतान',
+      paymentSuccess: 'भुगतान सफलतापूर्वक हो गया!',
+      orderConfirmed: 'आपका ऑर्डर कन्फर्म हो गया है',
+      goToHome: 'होम पर जाएं',
+      tapToSpeak: 'आवाज़ से खोजने के लिए टैप करें',
+      listening: 'सुन रहा हूं...',
+      aiSpeaking: 'AI बोल रहा है...',
+      typeSearch: 'आप क्या खोज रहे हैं टाइप करें...',
+      cartEmpty: 'आपका कार्ट खाली है',
+      total: 'कुल',
+      items: 'वस्तुएं',
+      cancel: 'रद्द करें'
+    },
+    'मराठी': {
+      title: 'उत्पादने खरेदी करा',
+      voiceSearch: 'आवाज शोध',
+      textSearch: 'मजकूर शोध',
+      availableProducts: 'उपलब्ध उत्पादने',
+      addToCart: 'कार्टमध्ये जोडा',
+      buyNow: 'आता खरेदी करा',
+      callVendor: 'विक्रेत्याला कॉल करा',
+      cart: 'शॉपिंग कार्ट',
+      checkout: 'चेकआउटवर जा',
+      paymentMethod: 'पेमेंट पद्धत निवडा',
+      upiPayment: 'UPI पेमेंट',
+      cashOnDelivery: 'डिलिव्हरीवर पेमेंट',
+      paymentSuccess: 'पेमेंट यशस्वीरित्या झाले!',
+      orderConfirmed: 'तुमचा ऑर्डर कन्फर्म झाला आहे',
+      goToHome: 'होमवर जा',
+      tapToSpeak: 'आवाजाने शोधण्यासाठी टॅप करा',
+      listening: 'ऐकत आहे...',
+      aiSpeaking: 'AI बोलत आहे...',
+      typeSearch: 'तुम्ही काय शोधत आहात ते टाइप करा...',
+      cartEmpty: 'तुमचे कार्ट रिकामे आहे',
+      total: 'एकूण',
+      items: 'वस्तू',
+      cancel: 'रद्द करा'
+    }
+  };
+
+  const t = translations[currentLanguage as keyof typeof translations] || translations['English'];
 
   const products = [
     {
@@ -63,10 +144,8 @@ const BuyProductScreen: React.FC<BuyProductScreenProps> = ({ onNavigate }) => {
     }
   ];
 
-  // Text-to-Speech function
   const speakText = (text: string) => {
     if ('speechSynthesis' in window) {
-      // Stop any ongoing speech
       window.speechSynthesis.cancel();
       
       const utterance = new SpeechSynthesisUtterance(text);
@@ -81,7 +160,6 @@ const BuyProductScreen: React.FC<BuyProductScreenProps> = ({ onNavigate }) => {
     }
   };
 
-  // Auto-speak the initial question when voice mode is selected
   useEffect(() => {
     if (searchMode === 'voice') {
       setTimeout(() => {
@@ -97,7 +175,6 @@ const BuyProductScreen: React.FC<BuyProductScreenProps> = ({ onNavigate }) => {
       setSearchQuery(searchResult);
       setIsListening(false);
       
-      // AI responds with search results
       setTimeout(() => {
         const responseText = `I found ${products.length} vendors selling onions near you. Here are the best options.`;
         speakText(responseText);
@@ -107,10 +184,6 @@ const BuyProductScreen: React.FC<BuyProductScreenProps> = ({ onNavigate }) => {
 
   const handleTextSearch = (value: string) => {
     setSearchQuery(value);
-  };
-
-  const handleReplayQuestion = () => {
-    speakText(aiQuestion);
   };
 
   const addToCart = (product: any, quantity: number = 1) => {
@@ -131,7 +204,6 @@ const BuyProductScreen: React.FC<BuyProductScreenProps> = ({ onNavigate }) => {
       }]);
     }
     
-    // Show cart notification and speak confirmation
     setShowCartNotification(true);
     speakText(`${product.name} added to your cart!`);
     setTimeout(() => setShowCartNotification(false), 3000);
@@ -155,11 +227,6 @@ const BuyProductScreen: React.FC<BuyProductScreenProps> = ({ onNavigate }) => {
     return cart.reduce((total, item) => total + item.quantity, 0);
   };
 
-  const handleProductSelect = (product: any) => {
-    setSelectedProduct(product);
-    setShowPaymentOptions(true);
-  };
-
   const handlePaymentSelect = (method: string) => {
     setSelectedPaymentMethod(method);
     setShowPaymentOptions(false);
@@ -171,9 +238,8 @@ const BuyProductScreen: React.FC<BuyProductScreenProps> = ({ onNavigate }) => {
     window.open(`tel:${phone}`);
   };
 
-  // Cart Notification Component
   const CartNotification = () => (
-    <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 bg-green-500 text-white px-6 py-3 rounded-xl shadow-lg flex items-center space-x-2 animate-bounce">
+    <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 text-white px-6 py-3 rounded-xl shadow-lg flex items-center space-x-2 animate-bounce" style={{ backgroundColor: '#3CAEA3' }}>
       <Check className="w-5 h-5" />
       <span className="font-medium">Product added to cart!</span>
     </div>
@@ -182,9 +248,9 @@ const BuyProductScreen: React.FC<BuyProductScreenProps> = ({ onNavigate }) => {
   const CartModal = () => (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full max-h-[600px] flex flex-col">
-        <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white p-6 rounded-t-2xl">
+        <div className="p-6 rounded-t-2xl text-white" style={{ backgroundColor: '#20639B' }}>
           <div className="flex items-center justify-between">
-            <h3 className="text-xl font-bold">Shopping Cart</h3>
+            <h3 className="text-xl font-bold">{t.cart}</h3>
             <button
               onClick={() => setShowCart(false)}
               className="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center"
@@ -198,34 +264,36 @@ const BuyProductScreen: React.FC<BuyProductScreenProps> = ({ onNavigate }) => {
           {cart.length === 0 ? (
             <div className="text-center py-8">
               <ShoppingCart className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-500">Your cart is empty</p>
+              <p className="text-gray-500">{t.cartEmpty}</p>
             </div>
           ) : (
             <div className="space-y-3">
               {cart.map((item) => (
                 <div key={item.id} className="bg-gray-50 rounded-xl p-4">
                   <div className="flex items-center justify-between mb-2">
-                    <h4 className="font-semibold text-gray-800">{item.name}</h4>
-                    <span className="text-green-600 font-bold">₹{item.price}/kg</span>
+                    <h4 className="font-semibold" style={{ color: '#1A1A1A' }}>{item.name}</h4>
+                    <span className="font-bold" style={{ color: '#3CAEA3' }}>₹{item.price}/kg</span>
                   </div>
                   <p className="text-sm text-gray-600 mb-3">{item.vendor}</p>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
                       <button
                         onClick={() => updateCartQuantity(item.id, item.quantity - 1)}
-                        className="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center"
+                        className="w-8 h-8 text-white rounded-full flex items-center justify-center"
+                        style={{ backgroundColor: '#20639B' }}
                       >
                         <Minus className="w-4 h-4" />
                       </button>
                       <span className="font-semibold">{item.quantity} kg</span>
                       <button
                         onClick={() => updateCartQuantity(item.id, item.quantity + 1)}
-                        className="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center"
+                        className="w-8 h-8 text-white rounded-full flex items-center justify-center"
+                        style={{ backgroundColor: '#20639B' }}
                       >
                         <Plus className="w-4 h-4" />
                       </button>
                     </div>
-                    <span className="font-bold text-gray-800">₹{item.price * item.quantity}</span>
+                    <span className="font-bold" style={{ color: '#1A1A1A' }}>₹{item.price * item.quantity}</span>
                   </div>
                 </div>
               ))}
@@ -236,8 +304,8 @@ const BuyProductScreen: React.FC<BuyProductScreenProps> = ({ onNavigate }) => {
         {cart.length > 0 && (
           <div className="p-4 border-t border-gray-200">
             <div className="flex items-center justify-between mb-4">
-              <span className="text-lg font-bold text-gray-800">Total: ₹{getTotalPrice()}</span>
-              <span className="text-sm text-gray-600">{getTotalItems()} items</span>
+              <span className="text-lg font-bold" style={{ color: '#1A1A1A' }}>{t.total}: ₹{getTotalPrice()}</span>
+              <span className="text-sm text-gray-600">{getTotalItems()} {t.items}</span>
             </div>
             <button
               onClick={() => {
@@ -245,9 +313,10 @@ const BuyProductScreen: React.FC<BuyProductScreenProps> = ({ onNavigate }) => {
                 setShowPaymentOptions(true);
                 speakText(`Your cart total is ${getTotalPrice()} rupees. Please choose your payment method.`);
               }}
-              className="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white py-3 rounded-xl font-semibold hover:from-orange-600 hover:to-orange-700 transition-all duration-200 shadow-lg"
+              className="w-full text-white py-3 rounded-xl font-semibold hover:opacity-90 transition-all duration-200 shadow-lg"
+              style={{ backgroundColor: '#20639B' }}
             >
-              Proceed to Checkout
+              {t.checkout}
             </button>
           </div>
         )}
@@ -258,16 +327,16 @@ const BuyProductScreen: React.FC<BuyProductScreenProps> = ({ onNavigate }) => {
   const PaymentSuccessModal = () => (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 text-center">
-        <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+        <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{ backgroundColor: '#3CAEA3' }}>
           <Check className="w-8 h-8 text-white" />
         </div>
-        <h3 className="text-2xl font-bold text-gray-800 mb-2">Payment Done Successfully!</h3>
-        <p className="text-gray-600 mb-4">Your order has been confirmed</p>
-        <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-xl p-4 mb-6">
+        <h3 className="text-2xl font-bold mb-2" style={{ color: '#1A1A1A' }}>{t.paymentSuccess}</h3>
+        <p className="text-gray-600 mb-4">{t.orderConfirmed}</p>
+        <div className="rounded-xl p-4 mb-6" style={{ backgroundColor: '#F2F4F7' }}>
           <p className="text-sm text-gray-600">Payment Method</p>
-          <p className="font-semibold text-gray-800">{selectedPaymentMethod}</p>
+          <p className="font-semibold" style={{ color: '#1A1A1A' }}>{selectedPaymentMethod}</p>
           <p className="text-sm text-gray-600 mt-2">Order ID: #VK{Math.floor(Math.random() * 10000)}</p>
-          <p className="text-sm text-gray-600">Total: ₹{getTotalPrice()}</p>
+          <p className="text-sm text-gray-600">{t.total}: ₹{getTotalPrice()}</p>
         </div>
         <button
           onClick={() => {
@@ -275,9 +344,10 @@ const BuyProductScreen: React.FC<BuyProductScreenProps> = ({ onNavigate }) => {
             setCart([]);
             onNavigate('home');
           }}
-          className="w-full py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl hover:from-green-600 hover:to-green-700 transition-all duration-200 shadow-lg"
+          className="w-full py-3 text-white rounded-xl hover:opacity-90 transition-all duration-200 shadow-lg"
+          style={{ backgroundColor: '#3CAEA3' }}
         >
-          Go to Home
+          {t.goToHome}
         </button>
       </div>
     </div>
@@ -286,17 +356,18 @@ const BuyProductScreen: React.FC<BuyProductScreenProps> = ({ onNavigate }) => {
   const PaymentModal = () => (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6">
-        <h3 className="text-xl font-bold text-gray-800 mb-4">Choose Payment Method</h3>
+        <h3 className="text-xl font-bold mb-4" style={{ color: '#1A1A1A' }}>{t.paymentMethod}</h3>
         
         <div className="space-y-4">
           <button 
             onClick={() => handlePaymentSelect('UPI Payment')}
-            className="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white p-4 rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-200 shadow-lg"
+            className="w-full text-white p-4 rounded-xl hover:opacity-90 transition-all duration-200 shadow-lg"
+            style={{ backgroundColor: '#20639B' }}
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
                 <Smartphone className="w-6 h-6" />
-                <span className="font-semibold">UPI Payment</span>
+                <span className="font-semibold">{t.upiPayment}</span>
               </div>
               <span className="text-sm">Instant</span>
             </div>
@@ -304,12 +375,13 @@ const BuyProductScreen: React.FC<BuyProductScreenProps> = ({ onNavigate }) => {
           
           <button 
             onClick={() => handlePaymentSelect('Cash on Delivery')}
-            className="w-full bg-gradient-to-r from-green-500 to-green-600 text-white p-4 rounded-xl hover:from-green-600 hover:to-green-700 transition-all duration-200 shadow-lg"
+            className="w-full text-white p-4 rounded-xl hover:opacity-90 transition-all duration-200 shadow-lg"
+            style={{ backgroundColor: '#3CAEA3' }}
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
                 <CreditCard className="w-6 h-6" />
-                <span className="font-semibold">Cash on Delivery</span>
+                <span className="font-semibold">{t.cashOnDelivery}</span>
               </div>
               <span className="text-sm">Pay Later</span>
             </div>
@@ -319,9 +391,10 @@ const BuyProductScreen: React.FC<BuyProductScreenProps> = ({ onNavigate }) => {
         <div className="mt-6">
           <button
             onClick={() => setShowPaymentOptions(false)}
-            className="w-full py-3 border-2 border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors"
+            className="w-full py-3 border-2 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors"
+            style={{ borderColor: '#3CAEA3' }}
           >
-            Cancel
+            {t.cancel}
           </button>
         </div>
       </div>
@@ -335,24 +408,17 @@ const BuyProductScreen: React.FC<BuyProductScreenProps> = ({ onNavigate }) => {
 
       {/* Header */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-4">
-          <button
-            onClick={() => onNavigate('home')}
-            className="w-10 h-10 bg-white rounded-full shadow-md flex items-center justify-center"
-          >
-            <ArrowLeft className="w-5 h-5 text-gray-600" />
-          </button>
-          <h2 className="text-2xl font-bold text-gray-800">Buy Products</h2>
-        </div>
+        <h2 className="text-2xl font-bold" style={{ color: '#1A1A1A' }}>{t.title}</h2>
         
         {/* Cart Button */}
         <button
           onClick={() => setShowCart(true)}
-          className="relative w-12 h-12 bg-orange-500 rounded-full shadow-lg flex items-center justify-center hover:bg-orange-600 transition-colors"
+          className="relative w-12 h-12 rounded-full shadow-lg flex items-center justify-center hover:opacity-90 transition-opacity"
+          style={{ backgroundColor: '#20639B' }}
         >
           <ShoppingCart className="w-6 h-6 text-white" />
           {cart.length > 0 && (
-            <span className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold">
+            <span className="absolute -top-2 -right-2 w-6 h-6 text-white text-xs rounded-full flex items-center justify-center font-bold" style={{ backgroundColor: '#3CAEA3' }}>
               {getTotalItems()}
             </span>
           )}
@@ -360,8 +426,8 @@ const BuyProductScreen: React.FC<BuyProductScreenProps> = ({ onNavigate }) => {
       </div>
 
       {/* Search Mode Toggle */}
-      <div className="bg-white rounded-2xl shadow-lg p-6 border-2 border-orange-200">
-        <h3 className="text-lg font-semibold text-gray-800 mb-4">Choose Search Method</h3>
+      <div className="bg-white rounded-2xl shadow-lg p-6">
+        <h3 className="text-lg font-semibold mb-4" style={{ color: '#1A1A1A' }}>Choose Search Method</h3>
         <div className="flex bg-gray-100 rounded-xl p-1 mb-4">
           <button
             onClick={() => {
@@ -370,12 +436,13 @@ const BuyProductScreen: React.FC<BuyProductScreenProps> = ({ onNavigate }) => {
             }}
             className={`flex-1 py-3 px-4 rounded-lg font-medium transition-all flex items-center justify-center space-x-2 ${
               searchMode === 'voice' 
-                ? 'bg-blue-500 text-white shadow-md' 
+                ? 'text-white shadow-md' 
                 : 'text-gray-600 hover:text-gray-800'
             }`}
+            style={{ backgroundColor: searchMode === 'voice' ? '#20639B' : 'transparent' }}
           >
             <Volume2 className="w-5 h-5" />
-            <span>Voice Search</span>
+            <span>{t.voiceSearch}</span>
           </button>
           <button
             onClick={() => {
@@ -384,12 +451,13 @@ const BuyProductScreen: React.FC<BuyProductScreenProps> = ({ onNavigate }) => {
             }}
             className={`flex-1 py-3 px-4 rounded-lg font-medium transition-all flex items-center justify-center space-x-2 ${
               searchMode === 'text' 
-                ? 'bg-green-500 text-white shadow-md' 
+                ? 'text-white shadow-md' 
                 : 'text-gray-600 hover:text-gray-800'
             }`}
+            style={{ backgroundColor: searchMode === 'text' ? '#3CAEA3' : 'transparent' }}
           >
             <Type className="w-5 h-5" />
-            <span>Text Search</span>
+            <span>{t.textSearch}</span>
           </button>
         </div>
 
@@ -397,48 +465,48 @@ const BuyProductScreen: React.FC<BuyProductScreenProps> = ({ onNavigate }) => {
         {searchMode === 'voice' && (
           <div>
             <div className="flex items-center space-x-3 mb-4">
-              <div className={`w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center ${isAISpeaking ? 'animate-pulse' : ''}`}>
+              <div className={`w-12 h-12 rounded-full flex items-center justify-center ${isAISpeaking ? 'animate-pulse' : ''}`} style={{ backgroundColor: '#20639B' }}>
                 <Mic className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h4 className="text-lg font-semibold text-gray-800">AI Voice Search</h4>
+                <h4 className="text-lg font-semibold" style={{ color: '#1A1A1A' }}>AI Voice Search</h4>
                 <p className="text-sm text-gray-600">Tell us what you need</p>
               </div>
             </div>
 
-            {/* AI Question Display */}
-            <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-4 mb-4 border-2 border-blue-200">
+            <div className="rounded-xl p-4 mb-4" style={{ backgroundColor: '#F2F4F7' }}>
               <div className="flex items-start space-x-3">
-                <div className={`w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0 ${isAISpeaking ? 'animate-bounce' : ''}`}>
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${isAISpeaking ? 'animate-bounce' : ''}`} style={{ backgroundColor: '#20639B' }}>
                   <span className="text-white text-sm font-bold">AI</span>
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-2">
-                    <p className="text-blue-800 font-medium text-lg">{aiQuestion}</p>
+                    <p className="font-medium text-lg" style={{ color: '#1A1A1A' }}>{aiQuestion}</p>
                     <button
-                      onClick={handleReplayQuestion}
-                      className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center hover:bg-purple-600 transition-colors"
+                      onClick={() => speakText(aiQuestion)}
+                      className="w-8 h-8 rounded-full flex items-center justify-center hover:opacity-80 transition-opacity"
+                      style={{ backgroundColor: '#3CAEA3' }}
                       title="Replay question"
                     >
                       <Volume2 className="w-4 h-4 text-white" />
                     </button>
                   </div>
                   {isAISpeaking && (
-                    <div className="flex items-center space-x-2 text-blue-600">
+                    <div className="flex items-center space-x-2" style={{ color: '#20639B' }}>
                       <div className="flex space-x-1">
-                        <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
-                        <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-                        <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                        <div className="w-2 h-2 rounded-full animate-bounce" style={{ backgroundColor: '#20639B' }}></div>
+                        <div className="w-2 h-2 rounded-full animate-bounce" style={{ backgroundColor: '#20639B', animationDelay: '0.1s' }}></div>
+                        <div className="w-2 h-2 rounded-full animate-bounce" style={{ backgroundColor: '#20639B', animationDelay: '0.2s' }}></div>
                       </div>
-                      <span className="text-sm font-medium">AI is speaking...</span>
+                      <span className="text-sm font-medium">{t.aiSpeaking}</span>
                     </div>
                   )}
                   {searchQuery && (
                     <div className="mt-3 flex items-center space-x-2">
-                      <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center">
+                      <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ backgroundColor: '#3CAEA3' }}>
                         <span className="text-white text-xs">U</span>
                       </div>
-                      <span className="text-purple-600 font-medium bg-purple-50 px-3 py-1 rounded-lg">
+                      <span className="font-medium px-3 py-1 rounded-lg" style={{ color: '#3CAEA3', backgroundColor: '#E0F2FE' }}>
                         "{searchQuery}"
                       </span>
                     </div>
@@ -452,24 +520,25 @@ const BuyProductScreen: React.FC<BuyProductScreenProps> = ({ onNavigate }) => {
               disabled={isListening || isAISpeaking}
               className={`w-full py-4 rounded-xl font-semibold text-white transition-all duration-200 ${
                 isListening || isAISpeaking
-                  ? 'bg-gray-400 cursor-not-allowed' 
-                  : 'bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 shadow-lg hover:shadow-xl'
+                  ? 'opacity-50 cursor-not-allowed' 
+                  : 'hover:opacity-90 shadow-lg hover:shadow-xl'
               }`}
+              style={{ backgroundColor: '#20639B' }}
             >
               {isListening ? (
                 <span className="flex items-center justify-center">
                   <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                  Listening...
+                  {t.listening}
                 </span>
               ) : isAISpeaking ? (
                 <span className="flex items-center justify-center">
                   <Volume2 className="w-5 h-5 mr-2 animate-pulse" />
-                  AI is speaking...
+                  {t.aiSpeaking}
                 </span>
               ) : (
                 <span className="flex items-center justify-center">
                   <Mic className="w-5 h-5 mr-2" />
-                  Tap to Search by Voice
+                  {t.tapToSpeak}
                 </span>
               )}
             </button>
@@ -480,11 +549,11 @@ const BuyProductScreen: React.FC<BuyProductScreenProps> = ({ onNavigate }) => {
         {searchMode === 'text' && (
           <div>
             <div className="flex items-center space-x-3 mb-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center">
+              <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: '#3CAEA3' }}>
                 <Search className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h4 className="text-lg font-semibold text-gray-800">Text Search</h4>
+                <h4 className="text-lg font-semibold" style={{ color: '#1A1A1A' }}>{t.textSearch}</h4>
                 <p className="text-sm text-gray-600">Type what you're looking for</p>
               </div>
             </div>
@@ -495,8 +564,9 @@ const BuyProductScreen: React.FC<BuyProductScreenProps> = ({ onNavigate }) => {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => handleTextSearch(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                placeholder="e.g., 5 kg onions, fresh tomatoes..."
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:border-transparent"
+                style={{ focusRingColor: '#3CAEA3' }}
+                placeholder={t.typeSearch}
               />
             </div>
           </div>
@@ -505,10 +575,10 @@ const BuyProductScreen: React.FC<BuyProductScreenProps> = ({ onNavigate }) => {
 
       {/* Products List */}
       <div className="space-y-4">
-        <h3 className="text-lg font-semibold text-gray-800">Available Products</h3>
+        <h3 className="text-lg font-semibold" style={{ color: '#1A1A1A' }}>{t.availableProducts}</h3>
         
         {products.map((product) => (
-          <div key={product.id} className="bg-white rounded-2xl shadow-lg p-6 border-2 border-orange-100">
+          <div key={product.id} className="bg-white rounded-2xl shadow-lg p-6">
             <div className="flex items-start space-x-4">
               <img
                 src={product.image}
@@ -516,14 +586,14 @@ const BuyProductScreen: React.FC<BuyProductScreenProps> = ({ onNavigate }) => {
                 className="w-20 h-20 rounded-xl object-cover"
               />
               <div className="flex-1">
-                <h4 className="text-lg font-semibold text-gray-800">{product.name}</h4>
+                <h4 className="text-lg font-semibold" style={{ color: '#1A1A1A' }}>{product.name}</h4>
                 <p className="text-sm text-gray-600 mb-1">{product.description}</p>
                 <div className="flex items-center space-x-2 mb-2">
                   <MapPin className="w-4 h-4 text-gray-400" />
                   <span className="text-sm text-gray-600">{product.vendor} • {product.distance}</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-2xl font-bold text-green-600">₹{product.price}/kg</span>
+                  <span className="text-2xl font-bold" style={{ color: '#3CAEA3' }}>₹{product.price}/kg</span>
                   <div className="flex items-center space-x-1">
                     <span className="text-yellow-500">★</span>
                     <span className="text-sm text-gray-600">{product.rating}</span>
@@ -535,24 +605,30 @@ const BuyProductScreen: React.FC<BuyProductScreenProps> = ({ onNavigate }) => {
             <div className="mt-4 flex space-x-2">
               <button 
                 onClick={() => handleCallVendor(product.vendorPhone)}
-                className="flex-1 bg-gradient-to-r from-green-500 to-green-600 text-white py-3 rounded-xl hover:from-green-600 hover:to-green-700 transition-all duration-200 flex items-center justify-center"
+                className="flex-1 text-white py-3 rounded-xl hover:opacity-90 transition-all duration-200 flex items-center justify-center"
+                style={{ backgroundColor: '#3CAEA3' }}
               >
                 <Phone className="w-4 h-4 mr-2" />
-                <span className="text-sm">Call Vendor</span>
+                <span className="text-sm">{t.callVendor}</span>
               </button>
               <button
                 onClick={() => addToCart(product)}
-                className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white py-3 rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-200 shadow-lg flex items-center justify-center"
+                className="flex-1 text-white py-3 rounded-xl hover:opacity-90 transition-all duration-200 shadow-lg flex items-center justify-center"
+                style={{ backgroundColor: '#20639B' }}
               >
                 <Plus className="w-4 h-4 mr-2" />
-                <span className="text-sm">Add to Cart</span>
+                <span className="text-sm">{t.addToCart}</span>
               </button>
               <button
-                onClick={() => handleProductSelect(product)}
-                className="flex-1 bg-gradient-to-r from-orange-500 to-orange-600 text-white py-3 rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all duration-200 shadow-lg flex items-center justify-center"
+                onClick={() => {
+                  addToCart(product);
+                  setShowPaymentOptions(true);
+                }}
+                className="flex-1 text-white py-3 rounded-xl hover:opacity-90 transition-all duration-200 shadow-lg flex items-center justify-center"
+                style={{ backgroundColor: '#3CAEA3' }}
               >
                 <ShoppingCart className="w-4 h-4 mr-2" />
-                <span className="text-sm">Buy Now</span>
+                <span className="text-sm">{t.buyNow}</span>
               </button>
             </div>
           </div>
