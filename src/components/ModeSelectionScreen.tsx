@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShoppingCart, Store, Users, TrendingUp } from 'lucide-react';
+import { ShoppingCart, Store, Users, TrendingUp, Sparkles, Zap } from 'lucide-react';
 
 interface ModeSelectionScreenProps {
   onModeSelect: (mode: 'seller' | 'buyer') => void;
@@ -9,165 +9,229 @@ interface ModeSelectionScreenProps {
 const ModeSelectionScreen: React.FC<ModeSelectionScreenProps> = ({ onModeSelect, currentLanguage }) => {
   const translations = {
     'English': {
-      title: 'Choose Your Mode',
-      subtitle: 'How would you like to use VocalKart today?',
+      title: 'Choose Your Journey',
+      subtitle: 'How would you like to experience VocalKart today?',
       sellerMode: 'Seller Mode',
-      sellerDesc: 'List and sell your products',
-      sellerFeatures: ['Add products by voice', 'Track sales & analytics', 'Manage deliveries', 'View customer orders'],
+      sellerDesc: 'Transform your business with voice',
+      sellerFeatures: ['Voice-powered product listing', 'Smart sales analytics', 'Effortless delivery management', 'Real-time customer insights'],
       buyerMode: 'Buyer Mode',
-      buyerDesc: 'Shop for products nearby',
-      buyerFeatures: ['Search products by voice', 'Add items to cart', 'Call vendors directly', 'Track your orders'],
-      getStarted: 'Get Started'
+      buyerDesc: 'Shop smarter with your voice',
+      buyerFeatures: ['Voice search & discovery', 'Smart cart management', 'Direct vendor communication', 'Seamless order tracking'],
+      getStarted: 'Start Your Journey',
+      voicePowered: 'Voice-Powered Experience',
+      aiDriven: 'AI-Driven Marketplace'
     },
     'हिंदी': {
-      title: 'अपना मोड चुनें',
-      subtitle: 'आज आप VocalKart का उपयोग कैसे करना चाहते हैं?',
+      title: 'अपनी यात्रा चुनें',
+      subtitle: 'आज आप VocalKart का अनुभव कैसे करना चाहते हैं?',
       sellerMode: 'विक्रेता मोड',
-      sellerDesc: 'अपने उत्पादों को सूचीबद्ध करें और बेचें',
-      sellerFeatures: ['आवाज़ से उत्पाद जोड़ें', 'बिक्री और विश्लेषण ट्रैक करें', 'डिलीवरी प्रबंधित करें', 'ग्राहक ऑर्डर देखें'],
+      sellerDesc: 'आवाज़ से अपने व्यापार को बदलें',
+      sellerFeatures: ['आवाज़-संचालित उत्पाद सूची', 'स्मार्ट बिक्री विश्लेषण', 'आसान डिलीवरी प्रबंधन', 'रियल-टाइम ग्राहक जानकारी'],
       buyerMode: 'खरीदार मोड',
-      buyerDesc: 'आस-पास के उत्पादों की खरीदारी करें',
-      buyerFeatures: ['आवाज़ से उत्पाद खोजें', 'कार्ट में आइटम जोड़ें', 'विक्रेताओं को सीधे कॉल करें', 'अपने ऑर्डर ट्रैक करें'],
-      getStarted: 'शुरू करें'
+      buyerDesc: 'अपनी आवाज़ से स्मार्ट खरीदारी',
+      buyerFeatures: ['आवाज़ खोज और खोज', 'स्मार्ट कार्ट प्रबंधन', 'सीधा विक्रेता संपर्क', 'निर्बाध ऑर्डर ट्रैकिंग'],
+      getStarted: 'अपनी यात्रा शुरू करें',
+      voicePowered: 'आवाज़-संचालित अनुभव',
+      aiDriven: 'AI-संचालित बाज़ार'
     },
     'मराठी': {
-      title: 'तुमचा मोड निवडा',
-      subtitle: 'आज तुम्ही VocalKart चा वापर कसा करू इच्छिता?',
+      title: 'तुमचा प्रवास निवडा',
+      subtitle: 'आज तुम्ही VocalKart चा अनुभव कसा घ्यायचा आहे?',
       sellerMode: 'विक्रेता मोड',
-      sellerDesc: 'तुमची उत्पादने सूचीबद्ध करा आणि विका',
-      sellerFeatures: ['आवाजाने उत्पादन जोडा', 'विक्री आणि विश्लेषण ट्रॅक करा', 'डिलिव्हरी व्यवस्थापित करा', 'ग्राहक ऑर्डर पहा'],
+      sellerDesc: 'आवाजाने तुमचा व्यवसाय बदला',
+      sellerFeatures: ['आवाज-चालित उत्पादन यादी', 'स्मार्ट विक्री विश्लेषण', 'सोपे डिलिव्हरी व्यवस्थापन', 'रिअल-टाइम ग्राहक माहिती'],
       buyerMode: 'खरेदीदार मोड',
-      buyerDesc: 'जवळपासची उत्पादने खरेदी करा',
-      buyerFeatures: ['आवाजाने उत्पादन शोधा', 'कार्टमध्ये आयटम जोडा', 'विक्रेत्यांना थेट कॉल करा', 'तुमचे ऑर्डर ट्रॅक करा'],
-      getStarted: 'सुरुवात करा'
-    },
-    'தமிழ்': {
-      title: 'உங்கள் பயன்முறையைத் தேர்ந்தெடுக்கவும்',
-      subtitle: 'இன்று நீங்கள் VocalKart ஐ எப்படி பயன்படுத்த விரும்புகிறீர்கள்?',
-      sellerMode: 'விற்பனையாளர் பயன்முறை',
-      sellerDesc: 'உங்கள் தயாரிப்புகளை பட்டியலிட்டு விற்கவும்',
-      sellerFeatures: ['குரல் மூலம் தயாரிப்புகளை சேர்க்கவும்', 'விற்பனை மற்றும் பகுப்பாய்வு கண்காணிக்கவும்', 'டெலிவரிகளை நிர்வகிக்கவும்', 'வாடிக்கையாளர் ஆர்டர்களை பார்க்கவும்'],
-      buyerMode: 'வாங்குபவர் பயன்முறை',
-      buyerDesc: 'அருகிலுள்ள தயாரிப்புகளை வாங்கவும்',
-      buyerFeatures: ['குரல் மூலம் தயாரிப்புகளை தேடவும்', 'கார்ட்டில் பொருட்களை சேர்க்கவும்', 'விற்பனையாளர்களை நேரடியாக அழைக்கவும்', 'உங்கள் ஆர்டர்களை கண்காணிக்கவும்'],
-      getStarted: 'தொடங்குங்கள்'
-    },
-    'తెలుగు': {
-      title: 'మీ మోడ్‌ను ఎంచుకోండి',
-      subtitle: 'ఈరోజు మీరు VocalKart ను ఎలా ఉపయోగించాలని అనుకుంటున్నారు?',
-      sellerMode: 'విక్రేత మోడ్',
-      sellerDesc: 'మీ ఉత్పత్తులను జాబితా చేసి అమ్మండి',
-      sellerFeatures: ['వాయిస్ ద్వారా ఉత్పత్తులను జోడించండి', 'అమ్మకాలు మరియు విశ్లేషణలను ట్రాక్ చేయండి', 'డెలివరీలను నిర్వహించండి', 'కస్టమర్ ఆర్డర్లను చూడండి'],
-      buyerMode: 'కొనుగోలుదారు మోడ్',
-      buyerDesc: 'సమీపంలోని ఉత్పత్తుల కోసం షాపింగ్ చేయండి',
-      buyerFeatures: ['వాయిస్ ద్వారా ఉత్పత్తులను వెతకండి', 'కార్ట్‌కు వస్తువులను జోడించండి', 'విక్రేతలను నేరుగా కాల్ చేయండి', 'మీ ఆర్డర్లను ట్రాక్ చేయండి'],
-      getStarted: 'ప్రారంభించండి'
-    },
-    'ಕನ್ನಡ': {
-      title: 'ನಿಮ್ಮ ಮೋಡ್ ಆಯ್ಕೆಮಾಡಿ',
-      subtitle: 'ಇಂದು ನೀವು VocalKart ಅನ್ನು ಹೇಗೆ ಬಳಸಲು ಬಯಸುತ್ತೀರಿ?',
-      sellerMode: 'ಮಾರಾಟಗಾರ ಮೋಡ್',
-      sellerDesc: 'ನಿಮ್ಮ ಉತ್ಪನ್ನಗಳನ್ನು ಪಟ್ಟಿ ಮಾಡಿ ಮತ್ತು ಮಾರಾಟ ಮಾಡಿ',
-      sellerFeatures: ['ಧ್ವನಿಯ ಮೂಲಕ ಉತ್ಪನ್ನಗಳನ್ನು ಸೇರಿಸಿ', 'ಮಾರಾಟ ಮತ್ತು ವಿಶ್ಲೇಷಣೆಯನ್ನು ಟ್ರ್ಯಾಕ್ ಮಾಡಿ', 'ಡೆಲಿವರಿಗಳನ್ನು ನಿರ್ವಹಿಸಿ', 'ಗ್ರಾಹಕ ಆರ್ಡರ್‌ಗಳನ್ನು ವೀಕ್ಷಿಸಿ'],
-      buyerMode: 'ಖರೀದಿದಾರ ಮೋಡ್',
-      buyerDesc: 'ಹತ್ತಿರದ ಉತ್ಪನ್ನಗಳಿಗಾಗಿ ಶಾಪಿಂಗ್ ಮಾಡಿ',
-      buyerFeatures: ['ಧ್ವನಿಯ ಮೂಲಕ ಉತ್ಪನ್ನಗಳನ್ನು ಹುಡುಕಿ', 'ಕಾರ್ಟ್‌ಗೆ ಐಟಂಗಳನ್ನು ಸೇರಿಸಿ', 'ಮಾರಾಟಗಾರರನ್ನು ನೇರವಾಗಿ ಕರೆ ಮಾಡಿ', 'ನಿಮ್ಮ ಆರ್ಡರ್‌ಗಳನ್ನು ಟ್ರ್ಯಾಕ್ ಮಾಡಿ'],
-      getStarted: 'ಪ್ರಾರಂಭಿಸಿ'
-    },
-    'বাংলা': {
-      title: 'আপনার মোড নির্বাচন করুন',
-      subtitle: 'আজ আপনি VocalKart কীভাবে ব্যবহার করতে চান?',
-      sellerMode: 'বিক্রেতা মোড',
-      sellerDesc: 'আপনার পণ্য তালিকাভুক্ত করুন এবং বিক্রি করুন',
-      sellerFeatures: ['ভয়েস দিয়ে পণ্য যোগ করুন', 'বিক্রয় এবং বিশ্লেষণ ট্র্যাক করুন', 'ডেলিভারি পরিচালনা করুন', 'গ্রাহক অর্ডার দেখুন'],
-      buyerMode: 'ক্রেতা মোড',
-      buyerDesc: 'কাছাকাছি পণ্যের জন্য কেনাকাটা করুন',
-      buyerFeatures: ['ভয়েস দিয়ে পণ্য খুঁজুন', 'কার্টে আইটেম যোগ করুন', 'বিক্রেতাদের সরাসরি কল করুন', 'আপনার অর্ডার ট্র্যাক করুন'],
-      getStarted: 'শুরু করুন'
+      buyerDesc: 'तुमच्या आवाजाने स्मार्ट खरेदी',
+      buyerFeatures: ['आवाज शोध आणि शोध', 'स्मार्ट कार्ट व्यवस्थापन', 'थेट विक्रेता संपर्क', 'अखंड ऑर्डर ट्रॅकिंग'],
+      getStarted: 'तुमचा प्रवास सुरू करा',
+      voicePowered: 'आवाज-चालित अनुभव',
+      aiDriven: 'AI-चालित बाजारपेठ'
     }
   };
 
   const t = translations[currentLanguage as keyof typeof translations] || translations['English'];
 
+  const speakText = (text: string) => {
+    if ('speechSynthesis' in window) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 0.9;
+      utterance.lang = currentLanguage === 'हिंदी' ? 'hi-IN' : currentLanguage === 'मराठी' ? 'mr-IN' : 'en-US';
+      window.speechSynthesis.speak(utterance);
+    }
+  };
+
   return (
-    <div className="space-y-8 pb-20">
+    <div className="space-y-8 pb-20 relative overflow-hidden">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-10 left-10 w-32 h-32 bg-gradient-to-r from-blue-200 to-teal-200 rounded-full opacity-20 animate-float"></div>
+        <div className="absolute top-20 right-20 w-24 h-24 bg-gradient-to-r from-purple-200 to-pink-200 rounded-full opacity-20 animate-float" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute bottom-20 left-1/4 w-40 h-40 bg-gradient-to-r from-green-200 to-blue-200 rounded-full opacity-20 animate-float" style={{ animationDelay: '2s' }}></div>
+      </div>
+
       {/* Header */}
-      <div className="text-center">
-        <h2 className="text-3xl font-bold text-gray-800 mb-2">{t.title}</h2>
-        <p className="text-gray-600">{t.subtitle}</p>
+      <div className="text-center relative z-10">
+        <div className="flex items-center justify-center mb-4">
+          <Sparkles className="w-8 h-8 text-yellow-500 animate-spin mr-2" />
+          <h2 
+            className="text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-teal-500 bg-clip-text text-transparent cursor-pointer hover:scale-105 transition-transform"
+            onMouseEnter={() => speakText(t.title)}
+          >
+            {t.title}
+          </h2>
+          <Sparkles className="w-8 h-8 text-yellow-500 animate-spin ml-2" />
+        </div>
+        <p 
+          className="text-gray-600 text-lg cursor-pointer hover:text-gray-800 transition-colors"
+          onMouseEnter={() => speakText(t.subtitle)}
+        >
+          {t.subtitle}
+        </p>
       </div>
 
       {/* Mode Selection Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
         {/* Seller Mode */}
-        <div className="bg-white rounded-2xl shadow-lg p-8 border-2 border-green-200 hover:border-green-400 transition-all duration-200 hover:shadow-xl">
-          <div className="text-center mb-6">
-            <div className="w-20 h-20 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Store className="w-10 h-10 text-white" />
-            </div>
-            <h3 className="text-2xl font-bold text-green-800 mb-2">{t.sellerMode}</h3>
-            <p className="text-gray-600">{t.sellerDesc}</p>
-          </div>
-
-          <div className="space-y-3 mb-8">
-            {t.sellerFeatures.map((feature, index) => (
-              <div key={index} className="flex items-center space-x-3">
-                <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
-                  <span className="text-green-600 text-sm">✓</span>
+        <div className="group relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-green-600 rounded-3xl opacity-0 group-hover:opacity-20 transition-opacity duration-300 blur-xl"></div>
+          <div className="relative bg-white/90 backdrop-blur-lg rounded-3xl shadow-2xl p-8 border border-white/20 hover:shadow-3xl transition-all duration-500 hover:-translate-y-2 hover:scale-105 card-hover">
+            <div className="text-center mb-6">
+              <div className="relative w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:animate-bounce" style={{ background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)' }}>
+                <Store className="w-12 h-12 text-white" />
+                <div className="absolute -top-2 -right-2 w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center animate-pulse">
+                  <Zap className="w-4 h-4 text-white" />
                 </div>
-                <span className="text-gray-700 text-sm">{feature}</span>
               </div>
-            ))}
-          </div>
+              <h3 
+                className="text-2xl font-bold text-green-800 mb-2 cursor-pointer hover:text-green-600 transition-colors"
+                onMouseEnter={() => speakText(t.sellerMode)}
+              >
+                {t.sellerMode}
+              </h3>
+              <p 
+                className="text-gray-600 cursor-pointer hover:text-gray-800 transition-colors"
+                onMouseEnter={() => speakText(t.sellerDesc)}
+              >
+                {t.sellerDesc}
+              </p>
+            </div>
 
-          <button
-            onClick={() => onModeSelect('seller')}
-            className="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-4 rounded-xl font-semibold hover:from-green-600 hover:to-green-700 transition-all duration-200 shadow-lg hover:shadow-xl"
-          >
-            {t.getStarted}
-          </button>
+            <div className="space-y-4 mb-8">
+              {t.sellerFeatures.map((feature, index) => (
+                <div 
+                  key={index} 
+                  className="flex items-center space-x-3 group/item cursor-pointer hover:bg-green-50 p-2 rounded-lg transition-all duration-300"
+                  onMouseEnter={() => speakText(feature)}
+                >
+                  <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center group-hover/item:bg-green-200 transition-colors">
+                    <span className="text-green-600 text-sm font-bold">✓</span>
+                  </div>
+                  <span className="text-gray-700 text-sm group-hover/item:text-green-800 transition-colors">{feature}</span>
+                </div>
+              ))}
+            </div>
+
+            <button
+              onClick={() => onModeSelect('seller')}
+              className="w-full py-4 rounded-2xl font-semibold text-white transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 transform group-hover:animate-pulse"
+              style={{ background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)' }}
+              onMouseEnter={() => speakText(t.getStarted)}
+            >
+              <span className="flex items-center justify-center">
+                <TrendingUp className="w-5 h-5 mr-2" />
+                {t.getStarted}
+              </span>
+            </button>
+          </div>
         </div>
 
         {/* Buyer Mode */}
-        <div className="bg-white rounded-2xl shadow-lg p-8 border-2 border-blue-200 hover:border-blue-400 transition-all duration-200 hover:shadow-xl">
-          <div className="text-center mb-6">
-            <div className="w-20 h-20 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
-              <ShoppingCart className="w-10 h-10 text-white" />
-            </div>
-            <h3 className="text-2xl font-bold text-blue-800 mb-2">{t.buyerMode}</h3>
-            <p className="text-gray-600">{t.buyerDesc}</p>
-          </div>
-
-          <div className="space-y-3 mb-8">
-            {t.buyerFeatures.map((feature, index) => (
-              <div key={index} className="flex items-center space-x-3">
-                <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center">
-                  <span className="text-blue-600 text-sm">✓</span>
+        <div className="group relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-blue-600 rounded-3xl opacity-0 group-hover:opacity-20 transition-opacity duration-300 blur-xl"></div>
+          <div className="relative bg-white/90 backdrop-blur-lg rounded-3xl shadow-2xl p-8 border border-white/20 hover:shadow-3xl transition-all duration-500 hover:-translate-y-2 hover:scale-105 card-hover">
+            <div className="text-center mb-6">
+              <div className="relative w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:animate-bounce" style={{ background: 'linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%)' }}>
+                <ShoppingCart className="w-12 h-12 text-white" />
+                <div className="absolute -top-2 -right-2 w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center animate-pulse">
+                  <Sparkles className="w-4 h-4 text-white" />
                 </div>
-                <span className="text-gray-700 text-sm">{feature}</span>
               </div>
-            ))}
-          </div>
+              <h3 
+                className="text-2xl font-bold text-blue-800 mb-2 cursor-pointer hover:text-blue-600 transition-colors"
+                onMouseEnter={() => speakText(t.buyerMode)}
+              >
+                {t.buyerMode}
+              </h3>
+              <p 
+                className="text-gray-600 cursor-pointer hover:text-gray-800 transition-colors"
+                onMouseEnter={() => speakText(t.buyerDesc)}
+              >
+                {t.buyerDesc}
+              </p>
+            </div>
 
-          <button
-            onClick={() => onModeSelect('buyer')}
-            className="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white py-4 rounded-xl font-semibold hover:from-blue-600 hover:to-blue-700 transition-all duration-200 shadow-lg hover:shadow-xl"
-          >
-            {t.getStarted}
-          </button>
+            <div className="space-y-4 mb-8">
+              {t.buyerFeatures.map((feature, index) => (
+                <div 
+                  key={index} 
+                  className="flex items-center space-x-3 group/item cursor-pointer hover:bg-blue-50 p-2 rounded-lg transition-all duration-300"
+                  onMouseEnter={() => speakText(feature)}
+                >
+                  <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center group-hover/item:bg-blue-200 transition-colors">
+                    <span className="text-blue-600 text-sm font-bold">✓</span>
+                  </div>
+                  <span className="text-gray-700 text-sm group-hover/item:text-blue-800 transition-colors">{feature}</span>
+                </div>
+              ))}
+            </div>
+
+            <button
+              onClick={() => onModeSelect('buyer')}
+              className="w-full py-4 rounded-2xl font-semibold text-white transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 transform group-hover:animate-pulse"
+              style={{ background: 'linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%)' }}
+              onMouseEnter={() => speakText(t.getStarted)}
+            >
+              <span className="flex items-center justify-center">
+                <ShoppingCart className="w-5 h-5 mr-2" />
+                {t.getStarted}
+              </span>
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Benefits Section */}
-      <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl p-6 border-2 border-amber-200">
-        <div className="text-center">
-          <div className="w-16 h-16 bg-gradient-to-br from-amber-400 to-amber-600 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Users className="w-8 h-8 text-white" />
+      <div className="relative z-10">
+        <div className="bg-gradient-to-r from-amber-50 via-orange-50 to-yellow-50 rounded-3xl p-8 border-2 border-amber-200 shadow-xl">
+          <div className="text-center">
+            <div className="flex items-center justify-center mb-4">
+              <div className="w-20 h-20 rounded-full flex items-center justify-center shadow-lg animate-pulse" style={{ background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' }}>
+                <Users className="w-10 h-10 text-white" />
+              </div>
+            </div>
+            <h3 
+              className="text-2xl font-bold text-gray-800 mb-2 cursor-pointer hover:text-amber-600 transition-colors"
+              onMouseEnter={() => speakText(t.voicePowered)}
+            >
+              {t.voicePowered}
+            </h3>
+            <p 
+              className="text-gray-600 text-lg cursor-pointer hover:text-gray-800 transition-colors"
+              onMouseEnter={() => speakText(t.aiDriven)}
+            >
+              {t.aiDriven}
+            </p>
+            <div className="mt-4 flex items-center justify-center space-x-4">
+              <div className="flex items-center space-x-2 bg-white/50 px-4 py-2 rounded-full">
+                <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                <span className="text-sm text-gray-700">Voice Ready</span>
+              </div>
+              <div className="flex items-center space-x-2 bg-white/50 px-4 py-2 rounded-full">
+                <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
+                <span className="text-sm text-gray-700">AI Powered</span>
+              </div>
+            </div>
           </div>
-          <h3 className="text-xl font-bold text-gray-800 mb-2">Voice-First Experience</h3>
-          <p className="text-gray-600 text-sm">
-            Both modes are powered by advanced voice technology, making it easy for everyone to use - regardless of literacy level.
-          </p>
         </div>
       </div>
     </div>
